@@ -8,6 +8,9 @@ def buscaLargura(grafo, inicial):
     antecessor = {}
     queue = []
 
+    if inicial > len(grafo.vertices):
+        raise Exception("Entrada não válida")
+
     for vertice in range(0, len(grafo.vertices)):
         visitado[vertice+1] = False
         distancia[vertice+1] = math.inf
@@ -41,7 +44,7 @@ def buscaLargura(grafo, inicial):
 
 G = Grafo(arquivo='teste1.grafo')
 
-resultado = buscaLargura(G, 7)
+resultado = buscaLargura(G, 1)
 
 for distancia, vertices in resultado.items():
     print(distancia,':', vertices)
