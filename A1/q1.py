@@ -1,7 +1,7 @@
 import math
 
 #define classe para grafo
-class Visitante:
+class Grafo:
     """
     a função __init__ é executada ao incializar um objeto
     recebe o nome do arquivo com as infos do grafo ou recebe infos do grafo
