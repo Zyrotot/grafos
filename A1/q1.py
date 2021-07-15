@@ -72,6 +72,8 @@ class Grafo:
                 return self.arestas[(v, u)]
         else:
             return math.inf
+'''
+#debug
 
 G = Grafo(arquivo='teste1.grafo')
 #G = Visitante(tamanho=3, vertices=[1, 'segundo', 3], arestas={(1, 2):10, (1, 1):1})
@@ -84,3 +86,4 @@ print(G.rotulo(2))
 print(G.vizinhos(2))
 print(G.haAresta(2, 1))
 print(G.peso(2, 2))
+'''
