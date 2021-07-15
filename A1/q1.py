@@ -1,3 +1,5 @@
+import math
+
 #define classe para grafo
 class Visitante:
     """
@@ -69,7 +71,7 @@ class Visitante:
             except:
                 return self.arestas[(v, u)]
         else:
-            return False
+            return math.inf
 
 G = Visitante(arquivo='teste1.grafo')
 #G = Visitante(tamanho=3, vertices=[1, 'segundo', 3], arestas={(1, 2):10, (1, 1):1})
