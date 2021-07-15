@@ -76,7 +76,7 @@ class Grafo:
 #debug
 
 G = Grafo(arquivo='teste1.grafo')
-#G = Visitante(tamanho=3, vertices=[1, 'segundo', 3], arestas={(1, 2):10, (1, 1):1})
+G = Grafo(tamanho=3, vertices=[1, 'segundo', 3], arestas={(1, 2):10, (1, 1):1})
 
 print(G.qtdVertices())
 print(G.qtdArestas())
