@@ -1,0 +1,7 @@
+*vertices 3
+1 primeiro
+2 segundo
+3 terceiro
+*edges
+1 2 1
+2 2 10
