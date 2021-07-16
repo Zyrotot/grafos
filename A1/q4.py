@@ -1,6 +1,5 @@
 import math
 from q1 import Grafo
-from heapq import heapify 
 
 def caminhosDijkstra(grafo, inicial, pr=True):
     V = range(1, grafo.qtdVertices() + 1)
@@ -23,8 +22,7 @@ def caminhosDijkstra(grafo, inicial, pr=True):
 
     if pr:
         for v in V:
-            antecessores = []
-            x = v
+            antecessores = []; x = v
             while not x==inicial:
                 antecessores.append(x)
                 x = antecessor[x]
