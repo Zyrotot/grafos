@@ -36,14 +36,24 @@ def buscaCiclo(grafo, vertice, visitados):
                         tciclo.append(vertice)
                         vertice = item
                         visitados[aresta] = True
-
         if vertice == inicial:
             tciclo.append(vertice)
             e = True
             break
+        
+        fim = {}
+        for aresta, estado in visitados.items():
+            if vertice in aresta and estado == False:
+                fim[aresta] = estado
+
+        if(len(fim) == 0):
+            e = True
+            tciclo.append(vertice)
+            break
 
     subvisitados = {}
     subvertice  = 0
+    sube = False
 
     for aresta, estado in visitados.items():
         if estado == False:
@@ -53,8 +63,9 @@ def buscaCiclo(grafo, vertice, visitados):
         for aresta in subvisitados:
             if vertice in aresta:
                 subvertice = vertice
-
-    sube, subtciclo = buscaCiclo(grafo, subvertice, subvisitados)
+    
+    if subvertice != 0:
+        sube, subtciclo = buscaCiclo(grafo, subvertice, subvisitados)
 
     if sube == True:
         for i in range(0, len(tciclo)):
@@ -62,8 +73,6 @@ def buscaCiclo(grafo, vertice, visitados):
                 tciclo.pop(i)
                 tciclo = tciclo[:i] + subtciclo + tciclo[i:]
                 break
-    else:
-        return e, tciclo
 
     return e, tciclo
 

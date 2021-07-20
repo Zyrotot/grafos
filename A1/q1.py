@@ -3,7 +3,7 @@ import math
 #define classe para grafo
 class Grafo:
     """
-    a função __init__ é executada ao incializar um objeto
+    a funcao __init__ e executada ao incializar um objeto
     recebe o nome do arquivo com as infos do grafo ou recebe infos do grafo
     cria o grafo correspondente
     """
@@ -13,7 +13,7 @@ class Grafo:
         elif 'tamanho' in kwargs and 'vertices' in kwargs and 'arestas' in kwargs:
             self.defineGrafo(kwargs['tamanho'], kwargs['vertices'], kwargs['arestas'])
         else:
-            raise Exception("Entrada não válida")
+            raise Exception("Entrada nao valida")
 
     def ler(self, arquivo):
         arestas = {}
