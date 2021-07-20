@@ -70,6 +70,8 @@ class Grafo:
                 return self.arestas[(u, v)]
             except:
                 return self.arestas[(v, u)]
+        elif(v == u):
+            return 0
         else:
             return math.inf
 '''
