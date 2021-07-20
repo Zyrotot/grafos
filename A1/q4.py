@@ -1,7 +1,7 @@
 import math
 from q1 import Grafo
 
-def caminhosDijkstra(grafo, inicial, pr=True):
+def caminhosDijkstra(grafo, inicial, escreve=True):
     V = range(1, grafo.qtdVertices() + 1)
 
     distancia = {v:math.inf for v in V}
@@ -20,16 +20,18 @@ def caminhosDijkstra(grafo, inicial, pr=True):
                 distancia[v] = distancia[u] + grafo.peso(v, u)
                 antecessor[v] = u
 
-    if pr:
+    if escreve:
         for v in V:
             antecessores = []; x = v
-            while not x==inicial:
+            while not x==None:
                 antecessores.append(x)
+                if x==inicial:
+                    break
                 x = antecessor[x]
-
+            antecessores.reverse()
             print(f"{v}: {','.join(map(str,antecessores))}; d={distancia[v]}")
 
     return distancia, antecessor
 
 G = Grafo(arquivo='teste1.grafo')
-caminhosDijkstra(G, 1)
+caminhosDijkstra(G, 2)
