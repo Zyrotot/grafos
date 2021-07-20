@@ -33,5 +33,8 @@ def caminhosDijkstra(grafo, inicial, escreve=True):
 
     return distancia, antecessor
 
+'''
+# debug
 G = Grafo(arquivo='teste1.grafo')
 caminhosDijkstra(G, 2)
+'''
