@@ -31,7 +31,6 @@ class Grafo:
                         arestas[(int(linha[0]), int(linha[1]))] = float(linha[2])
             self.defineGrafo(tamanho, vertices, arestas)
 
-
     def defineGrafo(self, tamanho, vertices, arestas):
         if len(vertices)==tamanho:
             self.tamanho = tamanho
@@ -70,8 +69,6 @@ class Grafo:
                 return self.arestas[(u, v)]
             except:
                 return self.arestas[(v, u)]
-        elif(v == u):
-            return 0
         else:
             return math.inf
 '''

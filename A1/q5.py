@@ -7,7 +7,10 @@ def floydWarshall(grafo):
 
     for i in range(vertices):
             for j in range(vertices):
-                distancia[i][j] = grafo.peso(i+1, j+1) 
+                if i==j:
+                    distancia[i][j] = 0
+                else:
+                    distancia[i][j] = grafo.peso(i+1, j+1) 
 
     dist = list(map(lambda i: list(map(lambda j: j, i)), distancia))
 
