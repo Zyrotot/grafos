@@ -19,15 +19,18 @@ class Grafo:
         arestas = {}
         vertices = []
         with open(arquivo, "r") as f:
-            linhas = f.readlines()            
+            linhas = f.readlines()
+            modo = "vertices"
             for linha in linhas:
                 linha = linha.rstrip("\n").split(" ")
                 if 'vertices' in linha[0]:
                     tamanho = int(linha[1])
+                elif 'edges' in linha[0]:
+                    modo = "edges"
                 else:
-                    if len(linha) == 2:
-                        vertices.append(linha[1])
-                    elif len(linha) == 3:
+                    if modo == "vertices":
+                        vertices.append(" ".join(linha[1:]))
+                    elif modo == "edges":
                         arestas[(int(linha[0]), int(linha[1]))] = float(linha[2])
             self.defineGrafo(tamanho, vertices, arestas)
 
@@ -74,13 +77,14 @@ class Grafo:
 '''
 #debug
 
-G = Grafo(arquivo='teste1.grafo')
-G = Grafo(tamanho=3, vertices=[1, 'segundo', 3], arestas={(1, 2):10, (1, 1):1})
+#G = Grafo(arquivo='teste1.grafo')
+#G = Grafo(tamanho=3, vertices=[1, 'segundo', 3], arestas={(1, 2):10, (1, 1):1})
+G = Grafo(arquivo='instancias\ciclo_euleriano\ContemCicloEuleriano.net')
+
 
 print(G.qtdVertices())
 print(G.qtdArestas())
 print(G.grau(2))
-print(G.indice('segundo'))
 print(G.rotulo(2))
 print(G.vizinhos(2))
 print(G.haAresta(2, 1))
