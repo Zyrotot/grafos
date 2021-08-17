@@ -18,6 +18,7 @@ class Grafo:
     def ler(self, arquivo):
         arestas = {}
         vertices = []
+        orientado = False
         with open(arquivo, "r") as f:
             linhas = f.readlines()
             modo = "vertices"
@@ -25,17 +26,20 @@ class Grafo:
                 linha = linha.rstrip("\n").split(" ")
                 if 'vertices' in linha[0]:
                     tamanho = int(linha[1])
-                elif 'edges' in linha[0]:
+                elif 'edges' in linha[0] or 'arcs' in linha[0]:
+                    if 'arcs' in linha[0]:
+                        orientado = True
                     modo = "edges"
                 else:
                     if modo == "vertices":
                         vertices.append(" ".join(linha[1:]))
                     elif modo == "edges":
                         arestas[(int(linha[0]), int(linha[1]))] = float(linha[2])
-            self.defineGrafo(tamanho, vertices, arestas)
+            self.defineGrafo(tamanho, vertices, arestas, orientado)
 
-    def defineGrafo(self, tamanho, vertices, arestas):
+    def defineGrafo(self, tamanho, vertices, arestas, orientado):
         if len(vertices)==tamanho:
+            self.orientado = orientado
             self.tamanho = tamanho
             self.vertices = vertices
             self.arestas = arestas
@@ -58,26 +62,37 @@ class Grafo:
         return self.vertices[v-1]
     
     def vizinhos(self, v):
-        arestasV = [list(a) for a in self.arestas if v in a]
-        for a in arestasV:
-            a.remove(v)
+        if self.orientado:
+            arestasV = []
+            for a in self.arestas:
+                if v == a[0]:
+                    arestasV.append(list(a))
+            for a in arestasV:
+                a.remove(v)
+        else:  
+            arestasV = [list(a) for a in self.arestas if v in a]
+            for a in arestasV:
+                a.remove(v)
         return {a[0] for a in arestasV}
 
     def haAresta(self, v, u):
-        return (u, v) in self.arestas or (v, u) in self.arestas
+        if self.orientado:
+            return (v, u) in self.arestas
+        else:
+            return (u, v) in self.arestas or (v, u) in self.arestas
 
     def peso(self, v, u):
         if self.haAresta(v, u):
             try:
-                return self.arestas[(u, v)]
-            except:
                 return self.arestas[(v, u)]
+            except:
+                return self.arestas[(u, v)]
         else:
             return math.inf
-'''
-#debug
 
-#G = Grafo(arquivo='teste1.grafo')
+#debug
+'''
+G = Grafo(arquivo='teste1.grafo')
 #G = Grafo(tamanho=3, vertices=[1, 'segundo', 3], arestas={(1, 2):10, (1, 1):1})
 G = Grafo(arquivo='instancias\ciclo_euleriano\ContemCicloEuleriano.net')
 
