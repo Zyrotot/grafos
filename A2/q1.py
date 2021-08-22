@@ -90,48 +90,44 @@ def buscaAntecessor(vertice, antecessores):
             
     return con
 
+def conexaoForte(grafo):
+    global visitado
+    global tempoInicio
+    global tempoTermino
+    global antecessor
+    global time
+    
+    result = {}
+    result['visitado'], result['tempoInicio'], result['antecessor'], result['tempoTermino'] = buscaProfundidade(grafo)
+    
+    sortTempo = {k: v for k, v in sorted(tempoTermino.items(), key=lambda item: item[1], reverse=True)}
+
+    Gt = transporAresta(G)
+
+    resultT = {}
+    resultT['visitado'], resultT['tempoInicio'], resultT['antecessor'], resultT['tempoTermino'] = buscaProfundidadeAdaptado(Gt, sortTempo)
+
+    forteCon = []
+
+    antList = list()
+
+    for antecessor in resultT['antecessor']:
+        antList.append(antecessor)
+
+    while antList:
+        ant = antList.pop(0)
+        conSet = buscaAntecessor(ant, resultT['antecessor'])
+        if conSet != set():
+            forteCon.append(conSet)
+        for x in conSet:
+            try:
+                antList.remove(x)
+            except:
+                pass
+
+    return forteCon
+
 G = Grafo(arquivo='teste1.grafo')
 
-
-result = {}
-result['visitado'], result['tempoInicio'], result['antecessor'], result['tempoTermino'] = buscaProfundidade(G)
+result = conexaoForte(G)
 print(result)
-
-print(G.arestas)
-
-print(tempoInicio)
-print(tempoTermino)
-
-sortTempo = {k: v for k, v in sorted(tempoTermino.items(), key=lambda item: item[1], reverse=True)}
-
-print(sortTempo)
-
-Gt = transporAresta(G)
-
-resultT = {}
-resultT['visitado'], resultT['tempoInicio'], resultT['antecessor'], resultT['tempoTermino'] = buscaProfundidadeAdaptado(Gt, sortTempo)
-print(resultT)
-print(Gt.arestas)
-
-print(tempoInicio)
-print(tempoTermino)
-
-forteCon = []
-
-antList = list()
-
-for antecessor in resultT['antecessor']:
-    antList.append(antecessor)
-
-while antList:
-    ant = antList.pop(0)
-    conSet = buscaAntecessor(ant, resultT['antecessor'])
-    if conSet != set():
-        forteCon.append(conSet)
-    for x in conSet:
-        try:
-            antList.remove(x)
-        except:
-            pass
-
-print(forteCon)
