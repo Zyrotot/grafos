@@ -47,12 +47,19 @@ def visitaProfundidade(grafo, vertice):
 
     return True
 
+def ordenacaoTopologica(grafo):
+    
+    buscaProfundidade(grafo)
+    
+    string = ''
+
+    for vertice in list:
+        string = string+G.rotulo(vertice)+" -> "
+
+    return string[:-3]
+
+
 G = Grafo(arquivo='manha.net')
 
-buscaProfundidade(G)
-string = ''
-
-for vertice in list:
-    string = string+G.rotulo(vertice)+" -> "
-
-print(string[:-3])
+result = ordenacaoTopologica(G)
+print(result)
