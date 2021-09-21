@@ -1,5 +1,6 @@
 import math
 from bibGrafos import Grafo
+from collections import deque
 from copy import deepcopy
 
 def separa(grafo):
@@ -16,7 +17,7 @@ def separa(grafo):
 
 
 def BFS(grafo, mate, xc, distancia):
-    queue = []
+    queue = deque()
 
     for x in xc:
         if mate[grafo.indice(x)] == None:
@@ -24,31 +25,33 @@ def BFS(grafo, mate, xc, distancia):
             queue.append(grafo.indice(x))
         else:
             distancia[x] = math.inf
-    print(distancia)
-    t = grafo.tamanho+1
-    distancia[t] = math.inf
 
-    print(distancia)
+    distancia[None] = math.inf
 
     while queue:
-        x = queue.pop(0)
-        if distancia[x]<distancia[t]:
+        x = queue.popleft()
+        print(x)
+        if distancia[x]<distancia[None]:
             for vizinho in grafo.vizinhos(x):
-                if distancia[mate[vizinho]] == math.inf: #WTF
+                if distancia[mate[vizinho]] == math.inf: 
                     distancia[mate[vizinho]] = distancia[x] + 1
                     queue.append(mate[vizinho])
 
-    state = distancia[t] != math.inf
-
-    print(state)
+    state = distancia[None] != math.inf
 
     return (state)
 
 def DFS(grafo, mate, x, distancia):
-    state = False
-
-
-    return state
+    if x != None:
+        for vizinho in grafo.vizinhos(x):
+            if distancia[mate[vizinho]] == distancia[x]+1:
+                if DFS(grafo, mate, mate[vizinho], distancia):
+                    mate[vizinho] = x
+                    mate[x] = vizinho
+                    return True
+        distancia[x] = math.inf
+        return False
+    return True
 
 def hopcroftKarp(grafo):
     distancia = {}
@@ -64,7 +67,7 @@ def hopcroftKarp(grafo):
 
     while BFS(grafo, mate, xc, distancia):
         for xi in xc:
-            if mate[xi]==None:
+            if mate[grafo.indice(xi)]==None:
                 if DFS(grafo, mate, xi, distancia):
                     m = m+1
         
