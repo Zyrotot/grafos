@@ -2,6 +2,10 @@ import math
 from bibGrafos import Grafo
 from collections import deque
 from copy import deepcopy
+import time
+
+distancia = {}
+mate = {}
 
 def separa(grafo):
     x = deepcopy(grafo.vertices)
@@ -15,8 +19,10 @@ def separa(grafo):
 
     return x
 
-
-def BFS(grafo, mate, xc, distancia):
+def BFS(grafo, xc):
+    global mate
+    global distancia
+    
     queue = deque()
 
     for x in xc:
@@ -30,7 +36,6 @@ def BFS(grafo, mate, xc, distancia):
 
     while queue:
         x = queue.popleft()
-        print(x)
         if distancia[x]<distancia[None]:
             for vizinho in grafo.vizinhos(x):
                 if distancia[mate[vizinho]] == math.inf: 
@@ -41,11 +46,14 @@ def BFS(grafo, mate, xc, distancia):
 
     return (state)
 
-def DFS(grafo, mate, x, distancia):
+def DFS(grafo, x):
+    global mate
+    global distancia
+
     if x != None:
         for vizinho in grafo.vizinhos(x):
             if distancia[mate[vizinho]] == distancia[x]+1:
-                if DFS(grafo, mate, mate[vizinho], distancia):
+                if DFS(grafo, mate[vizinho]):
                     mate[vizinho] = x
                     mate[x] = vizinho
                     return True
@@ -54,8 +62,8 @@ def DFS(grafo, mate, x, distancia):
     return True
 
 def hopcroftKarp(grafo):
-    distancia = {}
-    mate = {}
+    global mate
+    global distancia
     
     m = 0
 
@@ -65,10 +73,10 @@ def hopcroftKarp(grafo):
 
     xc = separa(grafo)
 
-    while BFS(grafo, mate, xc, distancia):
+    while BFS(grafo, xc):
         for xi in xc:
             if mate[grafo.indice(xi)]==None:
-                if DFS(grafo, mate, xi, distancia):
+                if DFS(grafo, grafo.indice(xi)):
                     m = m+1
         
     return m, mate
@@ -76,3 +84,4 @@ def hopcroftKarp(grafo):
 G = Grafo(arquivo='instancias/emparelhamento_maximo/pequeno.net')
 
 num, result = hopcroftKarp(G)
+print(num, result)
