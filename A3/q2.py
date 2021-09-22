@@ -30,7 +30,7 @@ def BFS(grafo, xc):
             distancia[grafo.indice(x)] = 0
             queue.append(grafo.indice(x))
         else:
-            distancia[x] = math.inf
+            distancia[grafo.indice(x)] = math.inf
 
     distancia[None] = math.inf
 

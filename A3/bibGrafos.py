@@ -11,7 +11,7 @@ class Grafo:
         if 'arquivo' in kwargs:
             self.ler(kwargs['arquivo'])
         elif 'tamanho' in kwargs and 'vertices' in kwargs and 'arestas' in kwargs:
-            self.defineGrafo(kwargs['tamanho'], kwargs['vertices'], kwargs['arestas'])
+            self.defineGrafo(kwargs['tamanho'], kwargs['vertices'], kwargs['arestas'], kwargs['orientado'])
         else:
             raise Exception("Entrada nao valida")
 
