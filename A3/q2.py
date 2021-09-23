@@ -2,7 +2,6 @@ import math
 from bibGrafos import Grafo
 from collections import deque
 from copy import deepcopy
-import time
 
 distancia = {}
 mate = {}

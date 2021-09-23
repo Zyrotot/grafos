@@ -1,81 +1,7 @@
-from bibGrafos import Grafo
-from itertools import chain, combinations
-import math
-
-def lawler(grafo):
-    X = {i:None for i in range(2**grafo.tamanho)}
-    X[0] = 0
-    S_ = list(chain.from_iterable(combinations(grafo.vertices, r) for r in range(len(grafo.vertices)+1)))
-
-    for S in S_[1:]:
-        s = S_.index(S)
-        X[s] = math.inf
-        arestas = {(grafo.indice(elem),viz):1 for elem in S for viz in grafo.vizinhos(grafo.indice(elem)) if grafo.indice(elem) <= viz}
-        G_ = Grafo(tamanho=len(S), vertices=S, arestas=arestas, orientado=False)
-        print(I(G_))
-
-def I(grafo):
-    S_ = list(chain.from_iterable(combinations(grafo.vertices, r) for r in range(len(grafo.vertices)+1)))[1:]
-    sub = []
-    for S in S_:
-        entra = True
-        for a in S:
-            for b in S:
-                if grafo.haAresta(grafo.indice(a), grafo.indice(b)):
-                    entra = False
-        if entra:
-            sub.append(S)
-
-    todo_sub = list(chain.from_iterable(combinations(sub, r) for r in range(len(sub)+1)))[1:]
-    
-    fim = []   
-
-    for aa in todo_sub:
-        entra = True
-        for bb in aa:
-            for cc in aa:
-                if not bb == cc:
-                    if len([value for value in cc if value in bb]) > 0:
-                        entra = False
-        if entra:
-            fim.append(aa)
-
-    fim2=[]
-    entra = True
-    for aa in fim:
-        verts = []
-        for b in bb:
-            verts.append(b)
-        if not verts==list(grafo.vertices):
-            entra = False
-        if entra:
-            fim2.append(aa)
-    
-    for a in fim2:
-        print(len(a))
-    return fim2
-
-
-
-G = Grafo(arquivo='instancias/coloracao/cor3.net')
-lawler(G)
-
-
-"""
 import math
 from bibGrafos import Grafo
 from copy import deepcopy
-
-def lawler(grafo):
-    max = math.pow(2, grafo.tamanho)
-    x = {}
-
-    for num in range(0, int(max)):
-        x[num] = None
-
-    x[0] = 0
-    s = montas(grafo)
-    return x, g
+import time
 
 def montas(grafo):
     s = {}
@@ -98,8 +24,65 @@ def montas(grafo):
 
     return s
 
+def achaMaximal(grafo, s, x):
+    for num in s:
+        if num != 0:
+            x[num] = math.inf
+            tempG = deepcopy(grafo)
+            tempG.vertices = []
+            tempG.arestas = {}
+            for vertice in s[num]:
+                tempG.vertices.append(vertice)
+                for v2 in s[num]:
+                    if (grafo.indice(vertice), grafo.indice(v2)) in grafo.arestas.keys():
+                        tempG.arestas[grafo.indice(vertice), grafo.indice(v2)] = grafo.peso(grafo.indice(vertice), grafo.indice(v2))
+                    elif (grafo.indice(v2), grafo.indice(vertice)) in grafo.arestas.keys():
+                        tempG.arestas[grafo.indice(v2), grafo.indice(vertice)] = grafo.peso(grafo.indice(v2), grafo.indice(vertice))
+
+            maximal = {0:[]}
+            para = False
+            for vertice in tempG.vertices:
+                contador = 0
+                while True:
+                    if para:
+                        para = False
+                        break
+                    try:
+                        if isinstance(maximal[contador], list):
+                            if not maximal[contador]:
+                                maximal[contador].append(vertice)
+                                para = True
+                            else:
+                                tem = False
+                                for v2 in maximal[contador]:
+                                    if para:
+                                        break
+                                    if (grafo.indice(vertice), grafo.indice(v2)) in tempG.arestas.keys() or (grafo.indice(v2), grafo.indice(vertice)) in tempG.arestas.keys():
+                                        tem = True
+                                        contador = contador + 1
+                                if not tem:
+                                    maximal[contador].append(vertice)
+                                    para = True
+                    except:
+                        maximal[contador] = []
+        else:
+            x[num] = 0
+    return None
+
+def lawler(grafo):
+    max = math.pow(2, grafo.tamanho)
+    x = {}
+
+    for num in range(0, int(max)):
+        x[num] = None
+
+    s = montas(grafo)
+
+    achaMaximal(grafo, s, x)
+
+    return x
+
 G = Grafo(arquivo='instancias/coloracao/cor3.net')
 
-#x, g = lawler(G)
+x = lawler(G)
 s = montas(G)
-"""
